@@ -1,3 +1,4 @@
+require('dotenv').config();
 const express = require('express');
 const nodemailer = require('nodemailer');
 const bodyParser = require('body-parser');
@@ -14,8 +15,8 @@ app.post('/send-email', (req, res) => {
     const transporter = nodemailer.createTransport({
         service: 'gmail',
         auth: {
-            user: 'seuemail@gmail.com',
-            pass: 'suasenha'
+            user: process.env.EMAIL_USER,
+            pass: process.env.EMAIL_PASS
         }
     });
 
@@ -35,6 +36,7 @@ app.post('/send-email', (req, res) => {
         if (error) {
             return res.status(500).send(error.toString());
         }
+        console.log(`SENT TO ${email}`)
         res.status(200).send('Email enviado com sucesso!');
     });
 });
